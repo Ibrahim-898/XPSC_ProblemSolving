@@ -30,19 +30,37 @@ void solve() {
     cin >> n >> k;
     string s;
     cin >> s;
-    vector<int> one;
-    for(int i=0;i<n;i++){
-        if(s[i]=='1') one.push_back(i);
-    }
-   // cout << one.size() << endl;
-    for(int i=1;i<one.size();i++){
-        int dif = one[i]-one[i-1]-1;
-        //cout << dif << " "; 
-        ans+=(dif)/(2*k+1);
-    }
-    if(one.size()==0){
-        ans++;
-        ans+=(n-1)/(k*2);
+    int i=0;
+    while(i<n){
+        bool f1=true,f2=true;
+        if(s[i]=='0') {
+            int x=i;
+            int j=i+1,p=i-1;
+            while(j<n && j<=i+k){
+                if(s[j]=='1'){
+                    i=j+1;
+                    f1=false;
+                    break;
+                }
+                j++;
+            }
+            while( f1==true && p>=0 && p>=i-k){
+                if(s[p]=='1') {
+                    i=p+k+1;
+                    f2=false;
+                    break;
+                }
+                p--;
+            }
+            //cout << i << " " << j << " " << f1 << " " << f2 << endl;
+            if(f1==true && f2==true) {
+                s[x]='1';
+                ans++;
+                i++;
+            }
+            //cout << "ans " << ans << endl;
+        }
+        else i++;
     }
     cout << ans << endl;
     
